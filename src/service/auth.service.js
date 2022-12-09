@@ -1,16 +1,15 @@
 const bcrypt = require( "bcryptjs" );
 const jwt = require( "jsonwebtoken" );
 const { HttpStatusCode } = require( "../enums/statusCodes" );
-const { log, throwError } = require( "../utils/exceptions" );
+const {  throwError } = require( "../utils/exceptions" );
 const { loginJoi, signUpJoi } = require( "../validation/Auth" );
 const { USER } = require( "../model/modelIndex" );
-
 const salt = bcrypt.genSaltSync( 10 );
 
-
+//--Login Service
 const loginService = async ( data ) => {
     try {
-        await loginJoi.validateAsync( data );
+        loginJoi.validateAsync( data );
 
         const email = data.email;
         const password = data.password;
@@ -19,26 +18,26 @@ const loginService = async ( data ) => {
         if ( !user ) {
             throwError( "User does not exist", HttpStatusCode.NOT_FOUND );
         }
-       
+
         const isMatch = await bcrypt.compare( password, user.password );
-        if ( !isMatch ) { 
+        if ( !isMatch ) {
             throwError( "Invalid credentials", HttpStatusCode.UNAUTHORIZED );
         }
-       
+
         const token = jwt.sign( { email: user.email, userId: user._id }, process.env.JWT_KEY, { expiresIn: "4h" } );
         await USER.updateOne( { _id: user._id }, { $set: { token: token } } );
 
-        return {token , userId: user._id , success: true, status: HttpStatusCode.OK, message: "Login successful"}
+        return { success: true, status: HttpStatusCode.OK, message: "Login successful", userId: user._id, token }
 
     } catch (error) {
         return throwError( "Something went wrong!!",HttpStatusCode.BAD_GATEWAY, error  );
     }
-    
 }
 
+// Sign Up Service
 const signUpService = async ( data ) => {
     try {
-        await signUpJoi.validateAsync( data );
+        signUpJoi.validateAsync(data);
 
         const { name, email, password, address, dob, phone, role, status, repeatPassword } = data;
 
@@ -46,27 +45,27 @@ const signUpService = async ( data ) => {
             throwError( "Passwords do not match", HttpStatusCode.BAD_REQUEST );
         }
 
-        const user = await USER.findOne( { email } );
+        const user = await USER.findOne({ email });
         if ( user ) {
             throwError( "User already exists", HttpStatusCode.CONFLICT );
         }
 
-        const hashedPassword = await bcrypt.hash( password, salt );
+        const hashedPassword = await bcrypt.hash(password, salt);
 
-        const newUser = await new USER( {
+        const newUser = await USER( {
             name,
             email,
             password: hashedPassword,
+            date : new Date().toISOString(),
             address,
             dob,
             phone,
             role,
             status,
-        } );
+        });
+        const result = await newUser.save()
 
-        const result = await newUser.save();
-
-        return { success: true, status: HttpStatusCode.CREATED, message: "User created Successfully", data : result };
+        return { success: true, status: HttpStatusCode.CREATED, message: "User created Successfully", data : result  };
 
     } catch (error) {
         return throwError( "Something went wrong!!", HttpStatusCode.BAD_GATEWAY, error  );

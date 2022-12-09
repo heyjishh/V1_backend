@@ -28,9 +28,6 @@ const authFunction = async ( req, res, next ) => {
     }
 }
 
-const midAuth = async() => {
-    await authFunction();
-    await reqLogger();
-}
 
-module.exports = { authFunction, midAuth } 
+
+module.exports = { authFunction }

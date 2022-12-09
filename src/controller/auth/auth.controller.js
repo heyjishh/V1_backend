@@ -1,7 +1,6 @@
-const { Auth } = require('../../model/modelIndex');
 const { throwError } = require( "../../utils/exceptions" );
 const { HttpStatusCode } = require( "../../enums/statusCodes" )
-const { loginService, signUpService } = '../../service/auth.service'
+const { loginService, signUpService } = require('../../service/auth.service.js')
 
 
 const login = async ( req, res ) => {
@@ -26,7 +25,7 @@ const login = async ( req, res ) => {
 }
 
 const signUp = async ( req, res ) => {
-    try { 
+    try {
         const { name, email, password, address, dob, phone, role, status, repeatPassword } = req.body;
 
         if ( !name || !email || !password || !address || !dob || !phone || !role || !status || !repeatPassword ) {
@@ -37,7 +36,7 @@ const signUp = async ( req, res ) => {
 
         const result = await signUpService( data );
         return res.status( HttpStatusCode.CREATED).json( result );
-        
+
     } catch (error) {
       return throwError("Something went wrong!!" ,HttpStatusCode.BAD_GATEWAY, error)
     }
