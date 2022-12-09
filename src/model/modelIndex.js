@@ -1,3 +1,3 @@
 module.exports = {
-    Auth: require( "./auth.model" ),
+    USER: require( "./auth.model" ),
 }

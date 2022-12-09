@@ -15,6 +15,6 @@ const authSchema = new Schema( {
     resetPasswordToken: { type: String , default : ""},
 }, { strict: true, timestamps: true, toJSON: true, toObject: true } );
 
-const Auth = mongoose.model( "Auth", authSchema );
+const USER = mongoose.model( "USER", authSchema );
 
-module.exports = Auth;
+module.exports = USER;
