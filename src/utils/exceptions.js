@@ -1,9 +1,14 @@
 const stackErrorParser = require( 'error-stack-parser' );
 const path = require( 'path' );
 const fs = require( 'fs' );
+const { promisify } = require( 'util' );
 const readFile = promisify( fs.readFile );
 const { get } = require( 'lodash' );
-const logger = require( './logger.js' );
+
+const log = ( data ) => {
+    console.log( `[${ new Date().toISOString() }] ${ JSON.stringify( data ) }` );
+}
+
 
 const apiThrowError = async ( error ) => {
     try {
@@ -29,10 +34,10 @@ const apiThrowError = async ( error ) => {
             errorLine,
             errorColumn
         };
-        logger.error( errorObject );
+        log.error( errorObject );
         return errorObject;
     } catch ( error ) {
-        logger.error( error );
+        log.error( error );
         return error;
     }
 };
@@ -55,6 +60,14 @@ const throwError = async ( message, statusCode, error ) => {
     }
 }
 
-const log = data => logger.error( data )
 
-module.exports = { throwError, log };
+const reqLogger = async ( req, res, next ) => {
+    const { method, url, body } = req;
+    const log = `[${ new Date().toISOString() }] ${ method.toUpperCase() } ${ url } ${ JSON.stringify( body ) }`;
+    await log( log );
+    next();
+};
+
+
+module.exports = { throwError, log, reqLogger };
+

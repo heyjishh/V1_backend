@@ -3,6 +3,7 @@ const jwt = require( "jsonwebtoken" );
 const { HttpStatusCode } = require( "../enums/statusCodes" );
 const { log, throwError } = require( "../utils/exceptions" );
 const { loginJoi, signUpJoi } = require( "../validation/Auth" );
+const { USER } = require( "../model/modelIndex" );
 
 const salt = bcrypt.genSaltSync( 10 );
 
@@ -14,7 +15,7 @@ const loginService = async ( data ) => {
         const email = data.email;
         const password = data.password;
 
-        const user = await Auth.findOne( { email } );
+        const user = await USER.findOne( { email } );
         if ( !user ) {
             throwError( "User does not exist", HttpStatusCode.NOT_FOUND );
         }
@@ -25,7 +26,7 @@ const loginService = async ( data ) => {
         }
        
         const token = jwt.sign( { email: user.email, userId: user._id }, process.env.JWT_KEY, { expiresIn: "4h" } );
-        await Auth.updateOne( { _id: user._id }, { $set: { token: token } } );
+        await USER.updateOne( { _id: user._id }, { $set: { token: token } } );
 
         return {token , userId: user._id , success: true, status: HttpStatusCode.OK, message: "Login successful"}
 
@@ -45,14 +46,14 @@ const signUpService = async ( data ) => {
             throwError( "Passwords do not match", HttpStatusCode.BAD_REQUEST );
         }
 
-        const user = await Auth.findOne( { email } );
+        const user = await USER.findOne( { email } );
         if ( user ) {
             throwError( "User already exists", HttpStatusCode.CONFLICT );
         }
 
         const hashedPassword = await bcrypt.hash( password, salt );
 
-        const newUser = await new Auth( {
+        const newUser = await new USER( {
             name,
             email,
             password: hashedPassword,

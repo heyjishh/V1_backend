@@ -42,3 +42,5 @@ const signUp = async ( req, res ) => {
       return throwError("Something went wrong!!" ,HttpStatusCode.BAD_GATEWAY, error)
     }
 }
+
+module.exports = { login, signUp }
