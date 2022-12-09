@@ -1,10 +1,11 @@
 const authRoute = require( 'express' ).Router();
-const { login, signUp } = require( '../controller/admin/auth.controller' );
-const { midAuth } = require( '../middleware/authentication.middleware' );
+const { login, signUp } = require( '../controller/auth/auth.controller' );
+const { authFunction } = require('../middleware/authentication.middleware');
+const {reqLogger} = require('../utils/exceptions');
 
 
-authRoute.get( '/auth', midAuth, login );
-authRoute.post( '/auth', midAuth, signUp );
+authRoute.post('/auth/login', login );
+authRoute.post('/auth/signup', signUp );
 
 
-module.exports = {authRoute}
+module.exports = authRoute

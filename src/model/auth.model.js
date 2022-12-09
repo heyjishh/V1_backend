@@ -5,15 +5,15 @@ const authSchema = new Schema( {
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    date: { type: Date, default: Date.now },
+    date: { type: String, default: new Date().toISOString() },
     address: { type: String, required: true },
-    dob : { type: Date, required: true },
+    dob : { type: String, required: true },
     phone: { type: String, required: true },
-    role: { type: String, required: true, enum: [ 'admin', 'user' ] },
+    role: { type: String, enum: [ 'admin', 'user' ] , default : 'user' },
     status: { type: String, enum: [ 'active', 'inactive' ]  , default: 'active'},
     token: { type: String, default : ""},
     resetPasswordToken: { type: String , default : ""},
-}, { strict: true, timestamps: true, toJSON: true, toObject: true } );
+}, {  timestamps: true , strictQuery : true , virtuals :true } );
 
 const USER = mongoose.model( "USER", authSchema );
 
