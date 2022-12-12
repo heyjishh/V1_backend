@@ -1,6 +1,5 @@
 const joi = require( 'joi' );
-const { throwError } = require( '../utils/exceptions' );
-const { Auth } = require( '../model/modelIndex' );
+
 
 const loginJoi = joi.object( {
     email: joi.string().email().required(),
