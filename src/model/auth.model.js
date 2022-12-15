@@ -22,8 +22,8 @@ const authSchema = new Schema( {
     latitude: { type: String, default: "" },
 
     // company related
-    companyId: { type: Schema.Types.ObjectId, ref: 'COMPANY', default: null },
-    branchId: { type: Schema.Types.ObjectId, ref: 'COMPANY_BRANCH', default: null },
+    companyId: { type: Schema.Types.ObjectId, ref: 'company', default: null },
+    branchId: { type: Schema.Types.ObjectId, ref: 'companyTerminal', default: null },
 
     isVerified: { type: Boolean, default: false },
     isBlocked: { type: Boolean, default: false },

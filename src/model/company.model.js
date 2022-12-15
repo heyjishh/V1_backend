@@ -17,4 +17,4 @@ const companySchema = new Schema( {
     companyUpdatedBy: { type: Schema.Types.ObjectId, ref: "USER", required: true },
 }, { timestamps: true, strictQuery: true, virtuals: true } );
 
-module.exports = mongoose.model( "COMPANY", companySchema );
+module.exports = mongoose.model( "company", companySchema );
