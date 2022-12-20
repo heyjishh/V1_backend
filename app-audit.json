@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 7
+    },
+    "auditLog": "app-audit.json",
+    "files": [
+        {
+            "date": 1671554720680,
+            "name": "C:\\Users\\hp\\Desktop\\React learn\\employee_portal_backend\\logs\\app-2022-12-20.log",
+            "hash": "d72c1b6533aa47300c8b6a53cf2b0107475741c0df967ab01459a89030b613ea"
+        }
+    ],
+    "hashType": "sha256"
+}

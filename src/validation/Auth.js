@@ -20,5 +20,5 @@ const signUpJoi = joi.object( {
 
 module.exports = {
     loginJoi,
-    signUpJoi
+    signUpJoi,
 }

@@ -6,6 +6,7 @@ const { logger } = require("../utils/logger");
 
 const createCompanyTerminalService = async (data) => {
     try {
+
         const result = await COMPANY_TERMINAL.create(data);
         return {
             status: STATUS_MSG.SUCCESS,
