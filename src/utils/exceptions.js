@@ -61,8 +61,8 @@ const throwError = async ( message, statusCode, error ) => {
 const reqLogger = async (req, res, next) => {
     console.log( 'reqLogger');
     const { method, url, body } = req;
-    const log = `[${ new Date().toISOString() }] ${ method.toUpperCase() } ${ url } ${ JSON.stringify( body ) }`;
-    await log( log );
+    const log = `[${ new Date().toISOString() }] ${ method.toUpperCase() } -- ${ url }`;
+    console.log( log );
     next();
 };
 

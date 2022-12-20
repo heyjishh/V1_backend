@@ -1,0 +1,54 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "",
+    "description": " Project Application API",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "host": "localhost:8000",
+  "basePath": "/",
+  "tags": [
+    {
+      "name": "Users",
+      "description": "API for users in the system"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+
+  "paths": {
+    "/signup": {
+      "post": {
+        "tags": ["Signup"],
+        "description": "Create new user",
+        "parameters": [
+          {
+            "name": "SignUp",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        }
+      }
+
+  }
+}
+
+
+}
