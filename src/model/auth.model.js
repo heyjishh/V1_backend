@@ -10,7 +10,7 @@ const authSchema = new Schema( {
     dob: { type: String, required: true },
     phone: { type: String, required: true },
     role: { type: String, enum: [ 'admin', 'user' ], default: 'user' },
-    gender: { type: String, enum: [ 'male', 'female', 'other' ], required: true },
+    gender: { type: String, enum: [ 'male', 'female', 'other' ] },
     profileImage: { type: String, default: "" },
 
     status: { type: String, enum: [ 'active', 'inactive' ], default: 'active' },
