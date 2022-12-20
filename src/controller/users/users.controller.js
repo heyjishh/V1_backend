@@ -1,7 +1,7 @@
 const { throwError } = require("../../utils/exceptions");
 const { HttpStatusCode } = require("../../enums/statusCodes")
 const { USER } = require("../../model/modelIndex");
-const { createCompanyService } = require("../../service/company.service")
+const { getAllUsersService } = require("../../service/users.service")
 
 
 const getUsersById = async (req, res) => {

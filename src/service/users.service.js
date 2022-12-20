@@ -1,6 +1,6 @@
-const { throwError } = require("../../utils/exceptions");
-const { HttpStatusCode } = require("../../enums/statusCodes")
-const { USER } = require("../../model/modelIndex");
+const { throwError } = require("../utils/exceptions");
+const { HttpStatusCode } = require("../enums/statusCodes")
+const { USER } = require("../model/modelIndex");
 const { usersByIdJoi } = require("../validation/users.validation");
 const { paginations } = require("../utils/paginations");
 

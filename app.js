@@ -5,7 +5,7 @@ const app = express();
 const dbConnection = require('./src/dbConn/dbConnection.js')
 require( 'dotenv' ).config('./.env')
 const port = process.env.PORT || 3000;
-const { authRoute, companyRoute } = require('./src/routes/routeIndex');
+const { authRoute, companyRoute, usersRoute } = require('./src/routes/routeIndex');
 const winston = require('winston');
 const { format } = require('winston');
 const swagger = require('swagger-ui-express');
@@ -68,7 +68,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 
 app.use( '/api', authRoute );
-app.use( '/api', companyRoute );
+app.use('/api', companyRoute);
+app.use('/api' , usersRoute)
 
 app.get( '*', ( req, res ) => {
     res.status( 404 ).json( {

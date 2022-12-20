@@ -6,7 +6,7 @@ const { reqLogger } = require('../utils/exceptions');
 
 
 authRoute.post('/auth/login',reqLogger, login );
-authRoute.post('/auth/signup', reqLogger, signUp);
+authRoute.post('/auth/signup', reqLogger, signUp );
 
 
 module.exports = authRoute

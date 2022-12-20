@@ -1,10 +1,13 @@
+const { login, signUp } = require('./auth/auth.controller');
+const { getAllUsers, getUsersById } = require('./users/users.controller');
+const { createCompany  , createCompanyTerminal } = require('./company/company.controller');
+
+
 module.exports = {
-    login: require('./auth/auth.controller'),
-    signUp: require('./auth/auth.controller'),
-
-    getUsersById: require('./users/users.controller'),
-    getAllUsers: require('./users/users.controller'),
-
-    createCompany: require('./company/company.controller'),
-    createCompanyTerminal: require('./company/companyTerminal.controller'),
+    login,
+    signUp,
+    getAllUsers,
+    getUsersById,
+    createCompany,
+    createCompanyTerminal
 }

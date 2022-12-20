@@ -39,8 +39,9 @@ const apiThrowError = async ( error ) => {
     }
 };
 
-const throwError = async ( message, statusCode, error ) => {
-    if ( !error ) {
+const throwError = async (message, statusCode, error) => {
+    console.log("error", error)
+    if ( !error && error === undefined) {
         return  {
             success: false,
             statusCode,
@@ -59,9 +60,8 @@ const throwError = async ( message, statusCode, error ) => {
 
 
 const reqLogger = async (req, res, next) => {
-    console.log( 'reqLogger');
     const { method, url, body } = req;
-    const log = `[${ new Date().toISOString() }] ${ method.toUpperCase() } -- ${ url }`;
+    const log = `[${ new Date().toISOString() }] ${ method.toUpperCase() } --- ${ url } --- ${ JSON.stringify( body ) }  STATUS_CODE : ${ res.statusCode }`;
     console.log( log );
     next();
 };
