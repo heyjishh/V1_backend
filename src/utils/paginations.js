@@ -9,8 +9,9 @@ const paginations = async (model, query) => {
     const limit = parseInt(query.limit, 10) || 10;
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
-    const results = {};
-    const total = await model.countDocuments();
+    const resultsData = {};
+    console.log(model , "MODEL")
+    const total = await model.find().countDocuments();
     if (endIndex < total) {
         results.next = {
             page: page + 1,
@@ -24,11 +25,13 @@ const paginations = async (model, query) => {
         };
     }
     try {
-        results.results = await model.find().limit(limit).skip(startIndex).exec();
-        if(!results.results && results.results.length < 0) return throwError("No Data Found", HttpStatusCode.NOT_FOUND );
-        return results;
-    } catch (e) {
-       return throwError("Something Went Wrong", HttpStatusCode.INTERNAL_SERVER_ERROR, e);
+        resultsData.results = await model.find().limit(limit).skip(startIndex).exec();
+        resultsData.total = total;
+        resultsData.limit = limit;
+        resultsData.page = page;
+        return resultsData;
+    } catch (error) {
+        return error
     }
 };
 

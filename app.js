@@ -9,7 +9,7 @@ const { authRoute, companyRoute, usersRoute } = require('./src/routes/routeIndex
 const winston = require('winston');
 const { format } = require('winston');
 const swagger = require('swagger-ui-express');
-dbConnection();
+
 
 const logger = winston.createLogger({
     level: 'info',
@@ -28,6 +28,26 @@ const logger = winston.createLogger({
     ]
 });
 
+
+
+app.use(express.static('public'));
+
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true, limit: '5mb' }));
+
+app.use(cors({
+    origin: '*',
+    methods: 'GET,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+}));
+
+app.use(helmet({
+    contentSecurityPolicy: false,
+
+})
+);
+
 var options = {
     explorer: true
 };
@@ -40,23 +60,6 @@ app.use('/api-docs', swagger.serve, swagger.setup(
 
 
 
-app.use(express.static('public'));
-
-
-app.use( express.json() );
-app.use( express.urlencoded( { extended: true, limit: '5mb' } ) );
-
-app.use( cors( {
-    origin: '*',
-    methods: 'GET,PUT,PATCH,POST,DELETE',
-    preflightContinue: false,
-} ) );
-
-app.use( helmet( {
-    contentSecurityPolicy: false,
-
-} )
-);
 
 if (process.env.NODE_ENV !== 'production') {
     logger.add(new winston.transports.Console({
@@ -77,6 +80,7 @@ app.get( '*', ( req, res ) => {
     } )
 } )
 
-app.listen( port, async () => {
+app.listen(port, async () => {
+    await dbConnection();
     console.log( `Server is Listining on ${ port }` );
 });
